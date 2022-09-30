@@ -100,7 +100,7 @@
                                                     <label>Choose a Role</label>
                                                     <select name="role" class="custom-select" th:field="*{role}">
                                                         <option th:value="''" th:text="Select"></option>
-                                                        <option th:each="theRole : ${listRoles}" th:text="${theRole}"></option>
+                                                        <option th:each="theRole : ${roles}" th:value="${theRole.id}" th:text="${theRole.description}"></option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -154,12 +154,12 @@
 
                                             <tbody>
 
-                                            <tr th:each="theUser : ${userList}">
-                                                <td th:text="${}"></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                            <tr th:each="theUser : ${users}">
+                                                <td th:text="${theUser.firstName + ' ' + theUser.lastName}"></td>
+                                                <td th:text="${theUser.userName}"></td>
+                                                <td th:text="${theUser.gender}"></td>
+                                                <td th:text="${theUser.phoneNumber}"></td>
+                                                <td th:text="${theUser.role.description}"></td>
                                                 <td class="actions">
                                                     <a href="#"><button type="button" class="btn btn-warning btn-sm">Update</button></a>
                                                     <a href="#" class="delete-row"><button type="button" class="btn btn-secondary btn-sm">Delete</button></a>
