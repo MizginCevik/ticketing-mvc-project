@@ -32,7 +32,7 @@
                                 <div class="panel-body">
 
                                     <!-- ------------------------FORM START----------------------------- -->
-                                    <form th:object="${user}" th:action="@{/user/create}" method="post">
+                                    <form th:action="@{/user/create}" method="post" th:object="${user}">
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
@@ -157,12 +157,12 @@
                                             <tr th:each="theUser : ${users}">
                                                 <td th:text="${theUser.firstName + ' ' + theUser.lastName}"></td>
                                                 <td th:text="${theUser.userName}"></td>
-                                                <td th:text="${theUser.gender.getValue()}"></td>
+                                                <td th:text="${theUser.gender.value}"></td>
                                                 <td th:text="${theUser.phoneNumber}"></td>
                                                 <td th:text="${theUser.role.description}"></td>
                                                 <td class="actions">
-                                                    <a href="#"><button type="button" class="btn btn-warning btn-sm">Update</button></a>
-                                                    <a href="#" class="delete-row"><button type="button" class="btn btn-secondary btn-sm">Delete</button></a>
+                                                    <a th:href="@{/user/update/{id}(id=${theUser.userName})}"><button type="button" class="btn btn-warning btn-sm">Update</button></a>
+                                                    <a th:href="@{/user/delete/{id}(id=${theUser.userName})}" class="delete-row"><button type="button" class="btn btn-secondary btn-sm">Delete</button></a>
                                                 </td>
                                             </tr>
 
