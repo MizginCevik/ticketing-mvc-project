@@ -5,7 +5,10 @@ import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/user")
@@ -20,46 +23,67 @@ public class UserController {
     }
 
     @GetMapping("/create")
-    public String createUser(Model model){
+    public String createUser(Model model) {
 
         model.addAttribute("user", new UserDTO());
         model.addAttribute("roles", roleService.findAll()); //bring all roles from DB
         model.addAttribute("users", userService.findAll());
 
         return "/user/create";
+
     }
 
     @PostMapping("/create")
-    public String insertUser(@ModelAttribute("user") UserDTO user){//need to provide user,roles,users object
+    public String insertUser(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model) { //need to provide user,roles,users object
+
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("roles", roleService.findAll());
+            model.addAttribute("users", userService.findAll());
+
+            return "/user/create";
+
+        }
 
         userService.save(user);
 
         return "redirect:/user/create";
+
     }
 
     @GetMapping("/update/{username}")
-    public String editUser(@PathVariable("username") String username, Model model){
+    public String editUser(@PathVariable("username") String username, Model model) {
 
         model.addAttribute("user", userService.findById(username)); //user object ${user}
         model.addAttribute("roles", roleService.findAll()); //roles ${roles}
         model.addAttribute("users", userService.findAll()); //user ${users}
 
         return "/user/update";
+
     }
 
     @PostMapping("/update")
-    public String updateUser(@ModelAttribute("user") UserDTO user){
+    public String updateUser(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("roles", roleService.findAll());
+            model.addAttribute("users", userService.findAll());
+
+            return "/user/update";
+
+        }
 
         userService.update(user);//update that user
 
         return "redirect:/user/create";
+
     }
 
     @GetMapping("/delete/{username}")
-    public String deleteUser(@PathVariable("username") String username){
-
+    public String deleteUser(@PathVariable("username") String username) {
         userService.deleteById(username);
-
         return "redirect:/user/create";
     }
+
 }

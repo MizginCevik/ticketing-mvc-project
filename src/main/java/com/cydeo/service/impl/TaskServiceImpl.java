@@ -18,6 +18,7 @@ public class TaskServiceImpl extends AbstractMapService<TaskDTO,Long> implements
 
         if(task.getTaskStatus() == null)
             task.setTaskStatus(Status.OPEN);
+
         if(task.getAssignedDate() == null)
             task.setAssignedDate(LocalDate.now());
 
@@ -25,6 +26,7 @@ public class TaskServiceImpl extends AbstractMapService<TaskDTO,Long> implements
             task.setId(UUID.randomUUID().getMostSignificantBits());
 
         return super.save(task.getId(),task);
+
     }
 
     @Override
@@ -46,6 +48,7 @@ public class TaskServiceImpl extends AbstractMapService<TaskDTO,Long> implements
         task.setAssignedDate(foundTask.getAssignedDate());
 
         super.update(task.getId(),task);
+
     }
 
     @Override
@@ -79,4 +82,5 @@ public class TaskServiceImpl extends AbstractMapService<TaskDTO,Long> implements
         findById(task.getId()).setTaskStatus(task.getTaskStatus()); //First, status is updated
         update(task); //Second, task is updated with the new status information
     }
+
 }

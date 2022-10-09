@@ -32,4 +32,5 @@ public class RoleServiceImpl extends AbstractMapService<RoleDTO,Long> implements
     public void update(RoleDTO object) {
         super.update(object.getId(),object);
     }
+
 }
